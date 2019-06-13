@@ -1,7 +1,7 @@
 FROM phusion/baseimage
 MAINTAINER Matthew Rayner <matt@mattrayner.co.uk>
 
-RUN apt-get update && apt-get install -yq curl && apt-get clean
+RUN apt-get update && apt-get install -yq curl mysql-client-5.7 && apt-get clean
 
 WORKDIR /app
 

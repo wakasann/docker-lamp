@@ -12,11 +12,17 @@ function checkstatus {
 # Test our image, first curling our container and then checking the result against our expectations
 function testimage {
     echo "=> Querying image ($1)"
-    curl --retry 10 --retry-delay 5 -o actual/$1.html http://localhost:$2 --stderr -
+    curl --retry 10 --retry-delay 5 -o actual/$1.html http://$2 --stderr -
     checkstatus $?
 
     echo "=> Checking against expected values ($1)"
     diff -b actual/$1.html expected/$1.html
     checkstatus $?
     echo
+}
+
+function testmysql {
+    echo "=> Connecting to MySQL: ($1:$2)"
+    mysql -h $1 -P $2 -u admin -ppassword -e"quit"
+    checkstatus $?
 }
