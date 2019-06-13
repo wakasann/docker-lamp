@@ -12,6 +12,7 @@ ENV BOOT2DOCKER_ID 1000
 ENV BOOT2DOCKER_GID 50
 
 ENV PHPMYADMIN_VERSION=4.9.0.1
+ENV PHP_VERSION=7.3
 
 # Tweaks to give Apache/PHP write permissions to the app
 RUN usermod -u ${BOOT2DOCKER_ID} www-data && \
@@ -45,13 +46,9 @@ ADD supporting_files/supervisord-apache2.conf /etc/supervisor/conf.d/supervisord
 ADD supporting_files/supervisord-mysqld.conf /etc/supervisor/conf.d/supervisord-mysqld.conf
 ADD supporting_files/mysqld_innodb.cnf /etc/mysql/conf.d/mysqld_innodb.cnf
 
-# Allow mysql to bind on 0.0.0.0
-RUN sed -i "s/.*bind-address.*/bind-address = 0.0.0.0/" /etc/mysql/my.cnf && \
-  sed -i "s/.*bind-address.*/bind-address = 0.0.0.0/" /etc/mysql/mysql.conf.d/mysqld.cnf
-
 # Set PHP timezones to Europe/London
-RUN sed -i "s/;date.timezone =/date.timezone = Europe\/London/g" /etc/php/7.3/apache2/php.ini
-RUN sed -i "s/;date.timezone =/date.timezone = Europe\/London/g" /etc/php/7.3/cli/php.ini
+RUN sed -i "s/;date.timezone =/date.timezone = Europe\/London/g" /etc/php/${PHP_VERSION}/apache2/php.ini
+RUN sed -i "s/;date.timezone =/date.timezone = Europe\/London/g" /etc/php/${PHP_VERSION}/cli/php.ini
 
 # Remove pre-installed database
 RUN rm -rf /var/lib/mysql

@@ -12,6 +12,7 @@ ENV BOOT2DOCKER_ID 1000
 ENV BOOT2DOCKER_GID 50
 
 ENV PHPMYADMIN_VERSION=4.9.0.1
+ENV PHP_VERSION=7.3
 
 # Tweaks to give Apache/PHP write permissions to the app
 RUN usermod -u ${BOOT2DOCKER_ID} www-data && \
