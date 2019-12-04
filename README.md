@@ -7,6 +7,43 @@ With Ubuntu **18.04** amd **16.04** images on the `latest-1804` and `latest-1604
 [![Docker Hub][shield-docker-hub]][info-docker-hub]
 [![License][shield-license]][info-license]
 
+### Build
+
+build and run
+
+```
+git clone https://github.com/wakasann/docker-lamp.git
+cd docker-lamp
+
+# Build the 18.04, 16.04 image and the 14.04 images
+docker build -t=mattrayner/lamp:latest -f ./1804/Dockerfile .
+
+# run 18.04
+sudo docker run --name [container_name] -p "80:80" -p "3306:3306" -p "443:443" -v ${PWD}/app:/app -v ${PWD}/mysql:/var/lib/mysql  mattrayner/lamp:latest
+```
+
+fix the mcrypt can not load 
+
+in  runing docker container
+
+```
+sudo docker exec -ti [container_name] /bin/bash
+```
+
+in docker container bash run:
+
+```
+apt-get -y install gcc make autoconf libc-dev pkg-config
+apt-get -y install libmcrypt-dev
+apt-get install php7.3-dev 
+pecl install mcrypt # promat libmcrypt prefix? [autodetect] :  press [Enter] to autodetect
+service apache2 restart # restart apache2
+exit # exit the docker container
+```
+
+
+
+
 ### Contents
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -69,6 +106,8 @@ This is the quickest way
 ```bash
 # Launch a 18.04 based image
 docker run -p "80:80" -v ${PWD}/app:/app mattrayner/lamp:latest-1804
+# if apache need https,can add port 443
+docker run -p "80:80" -p "443:443" -v ${PWD}/app:/app mattrayner/lamp:latest-1804
 
 # Launch a 16.04 based image
 docker run -p "80:80" -v ${PWD}/app:/app mattrayner/lamp:latest-1604
