@@ -1,9 +1,10 @@
 FROM phusion/baseimage:0.11
-MAINTAINER Matthew Rayner <hello@rayner.io>
-ENV REFRESHED_AT 2019-06-11
+MAINTAINER wakasann <wakasann@sohu.com>
+ENV REFRESHED_AT 2019-12-04
 
 # based on dgraziotin/lamp
 # MAINTAINER Daniel Graziotin <daniel@ineed.coffee>
+# MAINTAINER Matthew Rayner <hello@rayner.io>
 
 ENV DOCKER_USER_ID 501 
 ENV DOCKER_USER_GID 20
@@ -49,9 +50,9 @@ ADD supporting_files/mysqld_innodb.cnf /etc/mysql/conf.d/mysqld_innodb.cnf
 RUN sed -i "s/.*bind-address.*/bind-address = 0.0.0.0/" /etc/mysql/my.cnf && \
   sed -i "s/.*bind-address.*/bind-address = 0.0.0.0/" /etc/mysql/mysql.conf.d/mysqld.cnf
 
-# Set PHP timezones to Europe/London
-RUN sed -i "s/;date.timezone =/date.timezone = Europe\/London/g" /etc/php/7.3/apache2/php.ini
-RUN sed -i "s/;date.timezone =/date.timezone = Europe\/London/g" /etc/php/7.3/cli/php.ini
+# Set PHP timezones to Asia/Shanghai
+RUN sed -i "s/;date.timezone =/date.timezone = Asia\/Shanghai/g" /etc/php/7.3/apache2/php.ini
+RUN sed -i "s/;date.timezone =/date.timezone = Asia\/Shanghai/g" /etc/php/7.3/cli/php.ini
 
 # Remove pre-installed database
 RUN rm -rf /var/lib/mysql
@@ -88,5 +89,5 @@ ENV PHP_POST_MAX_SIZE 10M
 # Add volumes for the app and MySql
 VOLUME  ["/etc/mysql", "/var/lib/mysql", "/app" ]
 
-EXPOSE 80 3306
+EXPOSE 80 3306 443
 CMD ["/run.sh"]
